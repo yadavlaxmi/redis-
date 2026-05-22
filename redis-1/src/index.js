@@ -12,11 +12,7 @@ app.get('/redis', async (req, res) => {
     return res.json({ message: reply });
 });
 
-app.get('/', async(req, res) => {
-    const cacheValue = await redis.get('todos');
-    if (cacheValue) {
-        return res.json(JSON.parse(cacheValue));
-    }
+app.get('/todos', async(req, res) => {
    const { data } = await axios.get('https://jsonplaceholder.typicode.com/todos/');
    await redis.set("todos",JSON.stringify(data)); 
     await redis.expire("todos", 30);
